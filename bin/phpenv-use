@@ -2,11 +2,25 @@
 set -e
 [ -n "$PHPENV_DEBUG" ] && set -x
 
+case "$1" in
+"" | -* )
+  { echo "usage:   phpenv use VERSION"
+    echo
+    echo "example: phpenv use 5.5"
+    echo
+    echo "Available major versions:"
+    phpenv-versions --bare | grep -E '^\d+\.\d+' | uniq | sort -r
+    echo
+  } >&2
+  exit 1
+  ;;
+esac
+
 version=$(phpenv-versions --bare | grep "^$1" | sort -r | head -n 1)
 
 if [[ -z "$version" ]]; then
   echo "Unable to find installed php version for $1"
-  exit(1)
+  exit 1
 fi
 
 if [[ "$2" == "--global" ]]; then

@@ -2,6 +2,20 @@
 set -e
 [ -n "$RBENV_DEBUG" ] && set -x
 
+case "$1" in
+"" | -* )
+  { echo "usage:   phpenv use VERSION"
+    echo
+    echo "example: phpenv use 5.5"
+    echo
+    echo "Available major versions:"
+    rbenv-versions --bare | grep -E '^\d+\.\d+' | uniq | sort -r
+    echo
+  } >&2
+  exit 1
+  ;;
+esac
+
 version=$(rbenv-versions --bare | grep "^$1" | sort -r | head -n 1)
 
 if [[ -z "$version" ]]; then
