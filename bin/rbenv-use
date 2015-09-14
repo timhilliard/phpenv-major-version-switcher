@@ -9,4 +9,8 @@ if [[ -z "$version" ]]; then
   exit(1)
 fi
 
-rbenv-local $version
+if [[ "$2" == "--global" ]]; then
+  rbenv-global $version
+else
+  rbenv-local $version
+fi
