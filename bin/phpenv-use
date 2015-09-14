@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -e
+[ -n "$PHPENV_DEBUG" ] && set -x
+
+version=$(phpenv-versions --bare | grep "^$1" | sort -r | head -n 1)
+
+if [[ -z "$version" ]]; then
+  echo "Unable to find installed php version for $1"
+  exit(1)
+fi
+
+phpenv-local $version
